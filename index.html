@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career DNA — Skill Genome Visualizer</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+  <header class="hero">
+    <div class="hero-bg">
+      <canvas id="dna-bg-canvas"></canvas>
+    </div>
+    <nav class="nav">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Career<strong>DNA</strong></span>
+      </div>
+      <div class="nav-badge">AI-Powered · No Login Required</div>
+    </nav>
+    <div class="hero-content">
+      <div class="hero-tag">Skill Genome Intelligence</div>
+      <h1 class="hero-title">
+        Decode Your<br/>
+        <em>Career DNA</em>
+      </h1>
+      <p class="hero-sub">Upload your resume + job description. Watch your skill genome come alive — with animated radar charts, gap analysis, and 3 personalized career trajectory simulations.</p>
+      <a href="#upload" class="cta-btn">
+        <span>Analyze My Genome</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="hero-scroll-hint">scroll to begin</div>
+  </header>
+
+  <!-- ═══════════════════════════ UPLOAD ═══════════════════════════ -->
+  <section id="upload" class="upload-section">
+    <div class="container">
+      <div class="section-label">Step 01 — Input</div>
+      <h2 class="section-title">Feed Your DNA</h2>
+
+      <div class="upload-grid">
+        <!-- Resume -->
+        <div class="upload-card" id="resume-card">
+          <div class="upload-card-header">
+            <span class="card-num">01</span>
+            <span class="card-title">Your Resume</span>
+          </div>
+          <div class="drop-zone" id="resume-drop">
+            <div class="drop-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M11 11h10M11 15h10M11 19h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <p class="drop-label">Drop PDF / TXT here</p>
+            <p class="drop-sub">or paste text below</p>
+            <input type="file" id="resume-file" accept=".pdf,.txt" hidden />
+            <button class="drop-btn" onclick="document.getElementById('resume-file').click()">Browse File</button>
+          </div>
+          <textarea id="resume-text" class="text-input" placeholder="Or paste your resume text here..."></textarea>
+          <div class="char-count" id="resume-count">0 characters</div>
+        </div>
+
+        <!-- VS divider -->
+        <div class="vs-divider">
+          <div class="vs-line"></div>
+          <div class="vs-circle">VS</div>
+          <div class="vs-line"></div>
+        </div>
+
+        <!-- Job Description -->
+        <div class="upload-card" id="jd-card">
+          <div class="upload-card-header">
+            <span class="card-num">02</span>
+            <span class="card-title">Job Description</span>
+          </div>
+          <div class="drop-zone" id="jd-drop">
+            <div class="drop-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="22" r="6" fill="var(--bg)" stroke="var(--accent)" stroke-width="1.5"/><path d="M22 19v3l2 1" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <p class="drop-label">Drop PDF / TXT here</p>
+            <p class="drop-sub">or paste text below</p>
+            <input type="file" id="jd-file" accept=".pdf,.txt" hidden />
+            <button class="drop-btn" onclick="document.getElementById('jd-file').click()">Browse File</button>
+          </div>
+          <textarea id="jd-text" class="text-input" placeholder="Or paste the job description here..."></textarea>
+          <div class="char-count" id="jd-count">0 characters</div>
+        </div>
+      </div>
+
+      <!-- API Key -->
+      <div class="api-key-section">
+        <div class="api-key-header">
+          <div class="api-key-title">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M6 9.5L2.5 13M9 2a4 4 0 100 8 4 4 0 000-8z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="9" cy="6" r="1.2" fill="currentColor"/></svg>
+            Google Gemini API Key
+          </div>
+          <a href="https://aistudio.google.com/apikey" target="_blank" class="api-key-get-link">
+            Get free key →
+          </a>
+        </div>
+        <div class="api-key-row" id="api-key-row">
+          <span class="api-key-prefix">AIza</span>
+          <input type="password" id="api-key" class="api-input" placeholder="...paste the rest of your key here" autocomplete="off" spellcheck="false" />
+          <button class="api-key-toggle" id="api-key-toggle" type="button" title="Show / hide key">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+          </button>
+        </div>
+        <div class="api-key-footer">
+          <span id="api-key-status" class="api-key-status"></span>
+          <span class="api-key-hint">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1a4.5 4.5 0 100 9 4.5 4.5 0 000-9zM5.5 5v3M5.5 3.5v.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+            Stays in your browser — never stored or sent to our servers
+          </span>
+        </div>
+      </div>
+
+      <button class="analyze-btn" id="analyze-btn" onclick="startAnalysis()">
+        <span class="btn-text">Decode Career DNA</span>
+        <div class="btn-loader" style="display:none;">
+          <span></span><span></span><span></span>
+        </div>
+      </button>
+
+      <div class="demo-link">No API key? <button onclick="loadDemo()" class="text-btn">Load demo analysis →</button></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ RESULTS ═══════════════════════════ -->
+  <section id="results" class="results-section hidden">
+    <div class="container">
+
+      <!-- DNA Match Score -->
+      <div class="match-banner" id="match-banner">
+        <div class="match-left">
+          <div class="section-label">Genome Analysis Complete</div>
+          <h2 class="match-title">DNA Match Score</h2>
+          <p class="match-sub" id="match-summary">Your skill genome has been decoded.</p>
+        </div>
+        <div class="match-score-wrap">
+          <canvas id="score-gauge" width="180" height="180"></canvas>
+          <div class="score-overlay">
+            <span class="score-num" id="score-num">0</span>
+            <span class="score-pct">%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RADAR CHART -->
+      <div class="viz-block">
+        <div class="viz-header">
+          <div class="viz-label">⬡ Skill Genome — Radar Map</div>
+          <div class="viz-controls">
+            <button class="viz-tab active" data-tab="both" onclick="switchRadar('both',this)">Both</button>
+            <button class="viz-tab" data-tab="resume" onclick="switchRadar('resume',this)">You</button>
+            <button class="viz-tab" data-tab="jd" onclick="switchRadar('jd',this)">Role</button>
+          </div>
+        </div>
+        <div class="radar-wrap">
+          <canvas id="radar-canvas" width="560" height="460"></canvas>
+          <div class="radar-legend">
+            <span class="legend-dot you"></span><span>Your Genome</span>
+            <span class="legend-dot role"></span><span>Role Required</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAP ANALYSIS -->
+      <div class="gap-section">
+        <div class="gap-header">
+          <div class="section-label">Step 02 — Gap Sequence</div>
+          <h2 class="section-title">Skill Gap Analysis</h2>
+        </div>
+        <div class="gap-grid" id="gap-grid">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- TRAJECTORY SIMULATOR -->
+      <div class="trajectory-section">
+        <div class="traj-header">
+          <div class="section-label">Step 03 — Career Simulation</div>
+          <h2 class="section-title">Trajectory Simulator</h2>
+          <p class="traj-sub">Three possible futures, based on your gap profile and market signals.</p>
+        </div>
+
+        <div class="traj-grid" id="traj-grid">
+          <!-- filled by JS -->
+        </div>
+
+        <!-- Timeline Canvas -->
+        <div class="timeline-wrap">
+          <div class="timeline-label">5-Year Growth Projection</div>
+          <canvas id="timeline-canvas" width="860" height="260"></canvas>
+        </div>
+      </div>
+
+      <!-- ACTION PLAN -->
+      <div class="action-section">
+        <div class="section-label">Step 04 — Activation</div>
+        <h2 class="section-title">Your 90-Day Action Plan</h2>
+        <div class="action-grid" id="action-grid">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- EXPORT -->
+      <div class="export-row">
+        <button class="export-btn" onclick="exportReport()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3M3 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Export Full Report
+        </button>
+        <button class="reset-btn" onclick="resetTool()">Analyze Another →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="logo-text footer-logo">Career<strong>DNA</strong></span>
+        <p>Built with Google Gemini AI · Your data never leaves your browser</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay" style="display:none;">
+    <div class="loading-box">
+      <canvas id="loading-dna" width="120" height="120"></canvas>
+      <div class="loading-status" id="loading-status">Sequencing your genome...</div>
+      <div class="loading-steps" id="loading-steps">
+        <div class="load-step active" data-step="1">Parsing documents</div>
+        <div class="load-step" data-step="2">Extracting skill markers</div>
+        <div class="load-step" data-step="3">Computing genome alignment</div>
+        <div class="load-step" data-step="4">Simulating trajectories</div>
+        <div class="load-step" data-step="5">Generating report</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/dna-bg.js"></script>
+  <script src="js/radar.js"></script>
+  <script src="js/gauge.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
